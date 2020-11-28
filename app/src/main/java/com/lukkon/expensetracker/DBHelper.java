@@ -50,6 +50,7 @@ public class DBHelper extends SQLiteOpenHelper{
         //Expenses table
         db.execSQL("CREATE TABLE expenses" + "(expense_id INTEGER PRIMARY KEY, user_username TEXT, category_name TEXT," +
                 " amount INTEGER, title TEXT, description TEXT, FOREIGN KEY(user_username) references users(username), FOREIGN KEY(category_name) REFERENCES categories(name))");
+        insertInitData(db);
     }
 
     @Override
@@ -58,6 +59,18 @@ public class DBHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS users");
         db.execSQL("DROP TABLE IF EXISTS categories");
         onCreate(db);
+    }
+
+    public void insertInitData(SQLiteDatabase db){
+        db.execSQL("INSERT INTO users" + "(username, password)" + "VALUES('test','test')");
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('car','#ff00ff')");
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('food','#0000ff')");
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('culture','#ff0000')");
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('tourism','#00ff00')");
+        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(1,'test', 'car', 500, 'Fuel', 'Car refueling at Shell gas station near my work')");
+        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(2,'test', 'car', 200, 'Fuel', 'Car refueling at MOL gas station near my home')");
+        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(3,'test', 'food', 1500, 'Shopping', 'Regular purchase of food and other stuff for home')");
+        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(4,'test', 'culture', 300, 'Cinema', 'Visiting cinema at Futurum Shopping Mal, I watched film Shrek 2')");
     }
 
     //Inserts
