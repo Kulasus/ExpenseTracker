@@ -122,131 +122,204 @@ public class DBHelper extends SQLiteOpenHelper{
     //Deletes one
     public boolean deleteUser (String username)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("expenses", "user_username="+username, null);
-        int deletedRows = db.delete("users", "username="+username,null);
-        return deletedRows > 0;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete("users", "user_username="+username, null);
+            int deletedRows = db.delete("users", "username="+username,null);
+            return deletedRows > 0;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return false;
+        }
     }
     public boolean deleteCategory (String name)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("expenses", "category_name="+name, null);
-        int deletedRows = db.delete("categories", "name="+name,null);
-        return deletedRows > 0;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete("category", "category_name="+name, null);
+            int deletedRows = db.delete("categories", "name="+name,null);
+            return deletedRows > 0;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return false;
+        }
     }
     public boolean deleteExpense (int expense_id)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int deletedRows = db.delete("expenses", "expense_id="+expense_id,null);
-        return deletedRows > 0;
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            int deletedRows = db.delete("expenses", "expense_id="+expense_id,null);
+            return deletedRows > 0;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return false;
+        }
     }
 
     //Selects one
     public User selectUser(String username){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from users where username=" + username + "", null);
-        String usernameOut = res.getString(res.getColumnIndex(USER_COLUMN_USERNAME));
-        String password = res.getString(res.getColumnIndex(USER_COLUMN_PASSWORD));
-        return new User(usernameOut,password);
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor res =  db.rawQuery("select * from users where username=" + username + "", null);
+            String usernameOut = res.getString(res.getColumnIndex(USER_COLUMN_USERNAME));
+            String password = res.getString(res.getColumnIndex(USER_COLUMN_PASSWORD));
+            return new User(usernameOut,password);
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return null;
+        }
     }
     public Category selectCategory(String name){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from categories where name=" + name + "", null);
-        String nameOut = res.getString(res.getColumnIndex(CATEGORY_COLUMN_NAME));
-        String color = res.getString(res.getColumnIndex(CATEGORY_COLUMN_COLOR));
-        return new Category(nameOut, color);
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor res =  db.rawQuery("select * from categories where name=" + name + "", null);
+            String nameOut = res.getString(res.getColumnIndex(CATEGORY_COLUMN_NAME));
+            String color = res.getString(res.getColumnIndex(CATEGORY_COLUMN_COLOR));
+            return new Category(nameOut, color);
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return null;
+        }
     }
     public Expense selectExpense(int expense_id){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from expenses where expense_id=" + expense_id + "", null);
-        int expense_idOut = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_EXPENSE_ID));
-        String user_username = res.getString(res.getColumnIndex(EXPENSE_COLUMN_USER_USERNAME));
-        String category_name = res.getString(res.getColumnIndex(EXPENSE_COLUMN_CATEGORY_NAME));
-        int amount = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_AMOUNT));
-        String title = res.getString(res.getColumnIndex(EXPENSE_COLUMN_TITLE));
-        String description = res.getString(res.getColumnIndex(EXPENSE_COLUMN_DESCRIPTION));
-        return new Expense(expense_idOut, user_username, category_name, amount, title, description);
-    }
-
-    //Updates
-    public boolean updateUser (String username, String password)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("username",username);
-        contentValues.put("password",password);
-        int updatedRows = db.update("users",contentValues,"username="+username,null);
-        return updatedRows > 0;
-    }
-    public boolean updateCategory (String name, String color)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name",name);
-        contentValues.put("color",color);
-        int updatedRows = db.update("categories",contentValues,"name="+name,null);
-        return updatedRows > 0;
-    }
-    public boolean updateExpense (int expense_id, String user_username, String category_name, int amount, String title, String description)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("expense_id",expense_id);
-        contentValues.put("user_username",user_username);
-        contentValues.put("category_name", category_name);
-        contentValues.put("amount", amount);
-        contentValues.put("title", title);
-        contentValues.put("description",description);
-        int updatedRows = db.update("expenses",contentValues,"expense_id="+expense_id,null);
-        return updatedRows > 0;
-    }
-
-    //Selects *
-    public ArrayList<User> selectAllUsers(){
-        ArrayList<User> arrayList = new ArrayList<User>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from users", null );
-        res.moveToFirst();
-
-        while(res.isAfterLast()==false){
-            String username = res.getString(res.getColumnIndex(USER_COLUMN_USERNAME));
-            String password = res.getString(res.getColumnIndex(USER_COLUMN_PASSWORD));
-            arrayList.add(new User(username,password));
-            res.moveToNext();
-        }
-        return arrayList;
-    }
-    public ArrayList<Category> selectAllCategories(){
-        ArrayList<Category> arrayList = new ArrayList<Category>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from categories", null );
-        res.moveToFirst();
-
-        while(res.isAfterLast()==false){
-            String name = res.getString(res.getColumnIndex(CATEGORY_COLUMN_NAME));
-            String color = res.getString(res.getColumnIndex(CATEGORY_COLUMN_COLOR));
-            arrayList.add(new Category(name, color));
-            res.moveToNext();
-        }
-        return arrayList;
-    }
-    public ArrayList<Expense> selectAllExpenses(){
-        ArrayList<Expense> arrayList = new ArrayList<Expense>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from expenses", null );
-        res.moveToFirst();
-
-        while(res.isAfterLast()==false){
-            int expense_id = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_EXPENSE_ID));
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor res =  db.rawQuery("select * from expenses where expense_id=" + expense_id + "", null);
+            int expense_idOut = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_EXPENSE_ID));
             String user_username = res.getString(res.getColumnIndex(EXPENSE_COLUMN_USER_USERNAME));
             String category_name = res.getString(res.getColumnIndex(EXPENSE_COLUMN_CATEGORY_NAME));
             int amount = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_AMOUNT));
             String title = res.getString(res.getColumnIndex(EXPENSE_COLUMN_TITLE));
             String description = res.getString(res.getColumnIndex(EXPENSE_COLUMN_DESCRIPTION));
-            arrayList.add(new Expense(expense_id, user_username, category_name, amount, title, description));
-            res.moveToNext();
+            return new Expense(expense_idOut, user_username, category_name, amount, title, description);
         }
-        return arrayList;
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return null;
+        }
+    }
+
+    //Updates
+    public boolean updateUser (String username, String password)
+    {
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("username",username);
+            contentValues.put("password",password);
+            int updatedRows = db.update("users",contentValues,"username="+username,null);
+            return updatedRows > 0;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return false;
+        }
+
+    }
+    public boolean updateCategory (String name, String color)
+    {
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name",name);
+            contentValues.put("color",color);
+            int updatedRows = db.update("categories",contentValues,"name="+name,null);
+            return updatedRows > 0;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return false;
+        }
+    }
+    public boolean updateExpense (int expense_id, String user_username, String category_name, int amount, String title, String description)
+    {
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("expense_id",expense_id);
+            contentValues.put("user_username",user_username);
+            contentValues.put("category_name", category_name);
+            contentValues.put("amount", amount);
+            contentValues.put("title", title);
+            contentValues.put("description",description);
+            int updatedRows = db.update("expenses",contentValues,"expense_id="+expense_id,null);
+            return updatedRows > 0;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return false;
+        }
+    }
+
+    //Selects *
+    public ArrayList<User> selectAllUsers(){
+        ArrayList<User> arrayList = new ArrayList<User>();
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor res =  db.rawQuery( "select * from users", null );
+            res.moveToFirst();
+
+            while(res.isAfterLast()==false){
+                String username = res.getString(res.getColumnIndex(USER_COLUMN_USERNAME));
+                String password = res.getString(res.getColumnIndex(USER_COLUMN_PASSWORD));
+                arrayList.add(new User(username,password));
+                res.moveToNext();
+            }
+            return arrayList;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return null;
+        }
+    }
+    public ArrayList<Category> selectAllCategories(){
+        ArrayList<Category> arrayList = new ArrayList<Category>();
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor res =  db.rawQuery( "select * from categories", null );
+            res.moveToFirst();
+
+            while(res.isAfterLast()==false){
+                String name = res.getString(res.getColumnIndex(CATEGORY_COLUMN_NAME));
+                String color = res.getString(res.getColumnIndex(CATEGORY_COLUMN_COLOR));
+                arrayList.add(new Category(name, color));
+                res.moveToNext();
+            }
+            return arrayList;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return null;
+        }
+    }
+    public ArrayList<Expense> selectAllExpenses(){
+        ArrayList<Expense> arrayList = new ArrayList<Expense>();
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor res =  db.rawQuery( "select * from expenses", null );
+            res.moveToFirst();
+
+            while(res.isAfterLast()==false){
+                int expense_id = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_EXPENSE_ID));
+                String user_username = res.getString(res.getColumnIndex(EXPENSE_COLUMN_USER_USERNAME));
+                String category_name = res.getString(res.getColumnIndex(EXPENSE_COLUMN_CATEGORY_NAME));
+                int amount = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_AMOUNT));
+                String title = res.getString(res.getColumnIndex(EXPENSE_COLUMN_TITLE));
+                String description = res.getString(res.getColumnIndex(EXPENSE_COLUMN_DESCRIPTION));
+                arrayList.add(new Expense(expense_id, user_username, category_name, amount, title, description));
+                res.moveToNext();
+            }
+            return arrayList;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return null;
+        }
     }
 
     //Deletes *
