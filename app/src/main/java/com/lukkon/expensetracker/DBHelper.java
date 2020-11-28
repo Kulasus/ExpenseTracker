@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.util.Log;
 
 import com.lukkon.expensetracker.dataObjects.Category;
@@ -61,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void insertInitData(SQLiteDatabase db){
+    private void insertInitData(SQLiteDatabase db){
         db.execSQL("INSERT INTO users" + "(username, password)" + "VALUES('test','test')");
         db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('car','#ff00ff')");
         db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('food','#0000ff')");
@@ -176,10 +178,15 @@ public class DBHelper extends SQLiteOpenHelper{
     public User selectUser(String username){
         try{
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor res =  db.rawQuery("select * from users where username=" + username + "", null);
-            String usernameOut = res.getString(res.getColumnIndex(USER_COLUMN_USERNAME));
-            String password = res.getString(res.getColumnIndex(USER_COLUMN_PASSWORD));
-            return new User(usernameOut,password);
+            Cursor res =  db.rawQuery("select * from users where username='" + username + "'", null);
+            if(res.moveToFirst()){
+                String usernameOut = res.getString(res.getColumnIndex(USER_COLUMN_USERNAME));
+                String password = res.getString(res.getColumnIndex(USER_COLUMN_PASSWORD));
+                return new User(usernameOut,password);
+            }
+            else{
+                throw new SQLiteException("User not found.");
+            }
         }
         catch(Exception e){
             Log.e("DBERROR", e.toString());
@@ -189,10 +196,15 @@ public class DBHelper extends SQLiteOpenHelper{
     public Category selectCategory(String name){
         try{
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor res =  db.rawQuery("select * from categories where name=" + name + "", null);
-            String nameOut = res.getString(res.getColumnIndex(CATEGORY_COLUMN_NAME));
-            String color = res.getString(res.getColumnIndex(CATEGORY_COLUMN_COLOR));
-            return new Category(nameOut, color);
+            Cursor res =  db.rawQuery("select * from categories where name='" + name + "''", null);
+            if(res.moveToFirst()){
+                String nameOut = res.getString(res.getColumnIndex(CATEGORY_COLUMN_NAME));
+                String color = res.getString(res.getColumnIndex(CATEGORY_COLUMN_COLOR));
+                return new Category(nameOut, color);
+            }
+            else{
+                throw new SQLiteException("Category not found.");
+            }
         }
         catch(Exception e){
             Log.e("DBERROR", e.toString());
@@ -203,13 +215,18 @@ public class DBHelper extends SQLiteOpenHelper{
         try{
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor res =  db.rawQuery("select * from expenses where expense_id=" + expense_id + "", null);
-            int expense_idOut = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_EXPENSE_ID));
-            String user_username = res.getString(res.getColumnIndex(EXPENSE_COLUMN_USER_USERNAME));
-            String category_name = res.getString(res.getColumnIndex(EXPENSE_COLUMN_CATEGORY_NAME));
-            int amount = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_AMOUNT));
-            String title = res.getString(res.getColumnIndex(EXPENSE_COLUMN_TITLE));
-            String description = res.getString(res.getColumnIndex(EXPENSE_COLUMN_DESCRIPTION));
-            return new Expense(expense_idOut, user_username, category_name, amount, title, description);
+            if(res.moveToFirst()){
+                int expense_idOut = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_EXPENSE_ID));
+                String user_username = res.getString(res.getColumnIndex(EXPENSE_COLUMN_USER_USERNAME));
+                String category_name = res.getString(res.getColumnIndex(EXPENSE_COLUMN_CATEGORY_NAME));
+                int amount = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_AMOUNT));
+                String title = res.getString(res.getColumnIndex(EXPENSE_COLUMN_TITLE));
+                String description = res.getString(res.getColumnIndex(EXPENSE_COLUMN_DESCRIPTION));
+                return new Expense(expense_idOut, user_username, category_name, amount, title, description);
+            }
+            else{
+                throw new SQLiteException("Expense not found.");
+            }
         }
         catch(Exception e){
             Log.e("DBERROR", e.toString());
