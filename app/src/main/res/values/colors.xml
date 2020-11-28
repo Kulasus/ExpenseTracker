@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
     <color name="colorBlack">#000000</color>
-    <color name="colorBtnLogin">#f5db87</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBtnLogin">#fff07a</color>
 </resources>
