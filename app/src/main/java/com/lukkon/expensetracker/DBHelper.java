@@ -6,16 +6,24 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.util.Log;
 
 import com.lukkon.expensetracker.dataObjects.Category;
 import com.lukkon.expensetracker.dataObjects.Expense;
 import com.lukkon.expensetracker.dataObjects.User;
+import com.lukkon.expensetracker.security.Decoder;
+import com.lukkon.expensetracker.security.Encoder;
 
-import java.lang.reflect.Array;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class DBHelper extends SQLiteOpenHelper{
 
@@ -64,7 +72,7 @@ public class DBHelper extends SQLiteOpenHelper{
     }
 
     private void insertInitData(SQLiteDatabase db){
-        db.execSQL("INSERT INTO users" + "(username, password)" + "VALUES('test','test')");
+        db.execSQL("INSERT INTO users" + "(username, password)" + "VALUES('test','" + Encoder.encode("test") + "')");
         db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('car','#ff00ff')");
         db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('food','#0000ff')");
         db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('culture','#ff0000')");
@@ -81,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper{
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put("username", username);
-            contentValues.put("password",password);
+            contentValues.put("password", Encoder.encode(password));
             long insertedId = db.insert("users", null, contentValues);
             if (insertedId == -1) return false;
             return true;
@@ -181,7 +189,7 @@ public class DBHelper extends SQLiteOpenHelper{
             Cursor res =  db.rawQuery("select * from users where username='" + username + "'", null);
             if(res.moveToFirst()){
                 String usernameOut = res.getString(res.getColumnIndex(USER_COLUMN_USERNAME));
-                String password = res.getString(res.getColumnIndex(USER_COLUMN_PASSWORD));
+                String password = Decoder.decode(res.getString(res.getColumnIndex(USER_COLUMN_PASSWORD)));
                 return new User(usernameOut,password);
             }
             else{
