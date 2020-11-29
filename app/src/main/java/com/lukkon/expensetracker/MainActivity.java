@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.lukkon.expensetracker.dataObjects.Expense;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,9 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadExpenseListView(){
         ArrayList<Expense> latestExpenses = db.selectAllExpensesByUsername(prefs.getString("loggedUserUsername",null));
-        Log.i("ADAPT", prefs.getString("loggedUserUsername","nothing"));
-        Log.i("ADAPT", String.valueOf(latestExpenses.size()));
-        ArrayAdapter<Expense> arrayAdapter = new ArrayAdapter<Expense>(this,android.R.layout.simple_list_item_1,latestExpenses);
+        Log.i("ADAPT",String.valueOf(latestExpenses.size()));
+        ArrayList<String> titles = new ArrayList<String>();
+        for(Expense e : latestExpenses){
+            titles.add(e.getTitle());
+        }
+        MainActivityListViewAdapter arrayAdapter = new MainActivityListViewAdapter(this, latestExpenses, titles);
+        //ArrayAdapter<Expense> arrayAdapter = new ArrayAdapter<Expense>(this,android.R.layout.simple_list_item_1,latestExpenses);
         latestExpenseListView.setAdapter(arrayAdapter);
         latestExpenseListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
