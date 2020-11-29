@@ -37,8 +37,8 @@ public class Login extends AppCompatActivity {
         User loggingUser = db.selectUser(usernameEditText.getText().toString());
         if(loggingUser != null){
             if(loggingUser.getPassword().equals(passwordEditText.getText().toString())){
-                prefs.edit().putString("loggedUserUsername",loggingUser.getUsername());
-                prefs.edit().putString("loggedUserPassword",loggingUser.getPassword());
+                prefs.edit().putString("loggedUserUsername",loggingUser.getUsername()).apply();
+                prefs.edit().putString("loggedUserPassword",loggingUser.getPassword()).apply();
                 Intent intent = new Intent(Login.this, MainActivity.class);
                 startActivity(intent);
             }
