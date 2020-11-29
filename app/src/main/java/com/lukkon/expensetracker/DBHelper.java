@@ -359,6 +359,30 @@ public class DBHelper extends SQLiteOpenHelper{
             return null;
         }
     }
+    public ArrayList<Expense> selectAllExpensesByUsername(String user_username){
+        ArrayList<Expense> arrayList = new ArrayList<Expense>();
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor res =  db.rawQuery( "select * from expenses where user_username LIKE '"+user_username+"'", null );
+            res.moveToFirst();
+
+            while(res.isAfterLast()==false){
+                int expense_id = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_EXPENSE_ID));
+                String user_usernameOut = res.getString(res.getColumnIndex(EXPENSE_COLUMN_USER_USERNAME));
+                String category_name = res.getString(res.getColumnIndex(EXPENSE_COLUMN_CATEGORY_NAME));
+                int amount = res.getInt(res.getColumnIndex(EXPENSE_COLUMN_AMOUNT));
+                String title = res.getString(res.getColumnIndex(EXPENSE_COLUMN_TITLE));
+                String description = res.getString(res.getColumnIndex(EXPENSE_COLUMN_DESCRIPTION));
+                arrayList.add(new Expense(expense_id, user_usernameOut, category_name, amount, title, description));
+                res.moveToNext();
+            }
+            return arrayList;
+        }
+        catch(Exception e){
+            Log.e("DBERROR", e.toString());
+            return null;
+        }
+    }
 
     //Deletes *
     public int removeAllUsers()
