@@ -47,6 +47,11 @@ public class Login extends AppCompatActivity {
             passwordEditText.setText("");
             Toast.makeText(this, "User not found!", Toast.LENGTH_LONG).show();
         }
-
+    }
+    public void onRegistrationClick(View view){
+        usernameEditText.setText("");
+        passwordEditText.setText("");
+        Intent intent = new Intent(Login.this, Registration.class);
+        startActivity(intent);
     }
 }

@@ -26,12 +26,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:background="@null"
-        android:drawableLeft="@drawable/ic_action_password"
-        android:drawableTint="@color/colorWhite"
         android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword|textNoSuggestions"
-        android:paddingRight="20dip"
+        android:hint="Select password"
+        android:inputType="textPassword"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
         android:textColorHint="@android:color/background_light"
@@ -42,6 +39,26 @@
         app:layout_constraintTop_toBottomOf="@+id/usernameEditText" />
 
     <EditText
+        android:id="@+id/passwordRepeatEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@null"
+        android:ems="10"
+        android:hint="Repeat password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+
+    <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,13 +66,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:background="@null"
-        android:drawableLeft="@drawable/ic_action_username"
-        android:drawableTint="@color/colorWhite"
         android:ems="10"
         android:fontFamily="sans-serif"
-        android:hint="Username"
-        android:inputType="textPersonName|textNoSuggestions"
-        android:paddingRight="20dip"
+        android:hint="Select username"
+        android:inputType="textPersonName"
+
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
         android:textColorHint="@android:color/background_light"
@@ -66,36 +81,20 @@
         app:layout_constraintTop_toBottomOf="@+id/appIconImageView" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/registrationButton"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="148dp"
         android:background="@drawable/roundedbutton"
-        android:text="Login"
-        android:onClick="onLoginClick"
+        android:onClick="onRegistrationClick"
+        android:text="Register"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
-
-    <Button
-        android:id="@+id/registrationButton"
-        android:layout_width="122dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="36dp"
-        android:text="Register here"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
-        android:textSize="14sp"
-        android:background="@android:color/transparent"
-        android:onClick="onRegistrationClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
