@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import com.lukkon.expensetracker.dataObjects.User;
+import com.lukkon.expensetracker.security.Decoder;
+import com.lukkon.expensetracker.security.Encoder;
 
 public class Login extends AppCompatActivity {
 
