@@ -45,6 +45,9 @@ public class Login extends AppCompatActivity {
         }
     }
     public void onRegistrationClick(View view){
-        Toast.makeText(this,"test", Toast.LENGTH_LONG).show();
+        usernameEditText.setText("");
+        passwordEditText.setText("");
+        Intent intent = new Intent(Login.this, Registration.class);
+        startActivity(intent);
     }
 }
