@@ -81,17 +81,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
-    <TextView
-        android:id="@+id/registerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+    <Button
+        android:id="@+id/registrationButton"
+        android:layout_width="122dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="36dp"
         android:text="Register here"
-        android:textColor="@android:color/background_light"
-        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp"
+        android:background="@android:color/transparent"
+        android:onClick="onRegistrationClick"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 

@@ -43,6 +43,8 @@ public class Login extends AppCompatActivity {
             passwordEditText.setText("");
             Toast.makeText(this, "User not found!", Toast.LENGTH_LONG).show();
         }
-
+    }
+    public void onRegistrationClick(View view){
+        Toast.makeText(this,"test", Toast.LENGTH_LONG).show();
     }
 }
