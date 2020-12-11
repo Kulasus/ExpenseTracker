@@ -18,6 +18,7 @@ public class ExpenseDetail extends AppCompatActivity {
     TextView titleTextView;
     TextView amountTextView;
     TextView categoryTextView;
+    TextView descriptionTextView;
 
     DBHelper db;
     Expense e;
@@ -36,11 +37,14 @@ public class ExpenseDetail extends AppCompatActivity {
         titleTextView = findViewById(R.id.titleTextView);
         amountTextView = findViewById(R.id.amountTextView);
         categoryTextView = findViewById(R.id.categoryTextView);
+        descriptionTextView = findViewById(R.id.descriptionMultilineText);
 
         titleTextView.setText(e.getTitle());
         titleTextView.setBackgroundColor(Color.parseColor(color));
         amountTextView.setText(String.valueOf(e.getAmount()));
         categoryTextView.setText(e.getCategory_name());
+        descriptionTextView.setText(e.getDescription());
+
     }
 
     public void onEditButtonClick(View view){
