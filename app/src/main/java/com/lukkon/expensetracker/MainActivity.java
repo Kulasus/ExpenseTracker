@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,10 +47,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 Expense expense = latestExpenses.get(position);
+                String colorString = db.selectCategory(expense.getCategory_name()).getColor();
                 Intent intent = new Intent(MainActivity.this, ExpenseDetail.class);
                 intent.putExtra("expense",expense);
+                intent.putExtra("color", colorString);
                 startActivity(intent);
             }
         });
+
     }
 }

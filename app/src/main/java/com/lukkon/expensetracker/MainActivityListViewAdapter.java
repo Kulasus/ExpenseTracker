@@ -41,10 +41,14 @@ public class MainActivityListViewAdapter extends ArrayAdapter<String> {
     }
 
     private void setRowColor(View rowView, int position){
+        String rowColor = this.getRowColor(rowView, position);
+        rowView.setBackgroundColor(Color.parseColor(rowColor));
+    }
+
+    private String getRowColor(View rowView, int position){
         String categoryName = this.expenses.get(position).getCategory_name();
         Category category = db.selectCategory(categoryName);
-        String rowColor = category.getColor();
-        rowView.setBackgroundColor(Color.parseColor(rowColor));
+        return category.getColor();
     }
 
 }

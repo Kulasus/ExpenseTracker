@@ -2,6 +2,7 @@ package com.lukkon.expensetracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -16,7 +17,8 @@ public class ExpenseDetail extends AppCompatActivity {
     TextView categoryTextView;
 
     Expense e;
-    //DBHelper db;
+    String color;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +26,14 @@ public class ExpenseDetail extends AppCompatActivity {
         setContentView(R.layout.activity_expense_detail);
 
         e = (Expense)getIntent().getSerializableExtra("expense");
+        color = getIntent().getStringExtra("color");
 
         titleTextView = findViewById(R.id.titleTextView);
         amountTextView = findViewById(R.id.amountTextView);
         categoryTextView = findViewById(R.id.categoryTextView);
-
+        
         titleTextView.setText(e.getTitle());
+        titleTextView.setBackgroundColor(Color.parseColor(color));
         amountTextView.setText(String.valueOf(e.getAmount()));
         categoryTextView.setText(e.getCategory_name());
     }
