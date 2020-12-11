@@ -73,10 +73,10 @@ public class DBHelper extends SQLiteOpenHelper{
 
     private void insertInitData(SQLiteDatabase db){
         db.execSQL("INSERT INTO users" + "(username, password)" + "VALUES('test','" + Encoder.encode("test") + "')");
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('car','#ff00ff')");
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('food','#0000ff')");
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('culture','#ff0000')");
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('tourism','#00ff00')");
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('car','#f57676')"); //light red
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('food','#8dabfc')"); //light blue
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('culture','#84ff82')"); //light green
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('tourism','#f0f768')"); //light yellow
         db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(1,'test', 'car', 500, 'Fuel', 'Car refueling at Shell gas station near my work')");
         db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(2,'test', 'car', 200, 'Fuel', 'Car refueling at MOL gas station near my home')");
         db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(3,'test', 'food', 1500, 'Shopping', 'Regular purchase of food and other stuff for home')");
@@ -186,7 +186,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public User selectUser(String username){
         try{
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor res =  db.rawQuery("select * from users where username='" + username + "'", null);
+            Cursor res =  db.rawQuery("select * from users where username= '" + username + "'", null);
             if(res.moveToFirst()){
                 String usernameOut = res.getString(res.getColumnIndex(USER_COLUMN_USERNAME));
                 String password = Decoder.decode(res.getString(res.getColumnIndex(USER_COLUMN_PASSWORD)));
@@ -204,7 +204,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public Category selectCategory(String name){
         try{
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor res =  db.rawQuery("select * from categories where name='" + name + "''", null);
+            Cursor res =  db.rawQuery("select * from categories where name= '" + name + "'", null);
             if(res.moveToFirst()){
                 String nameOut = res.getString(res.getColumnIndex(CATEGORY_COLUMN_NAME));
                 String color = res.getString(res.getColumnIndex(CATEGORY_COLUMN_COLOR));
