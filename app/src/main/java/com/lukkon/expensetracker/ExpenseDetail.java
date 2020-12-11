@@ -4,14 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lukkon.expensetracker.dataObjects.Expense;
+
+import java.security.InvalidParameterException;
+
+import static com.lukkon.expensetracker.R.layout.custom_dialog;
 
 public class ExpenseDetail extends AppCompatActivity {
 
@@ -48,7 +55,45 @@ public class ExpenseDetail extends AppCompatActivity {
     }
 
     public void onEditButtonClick(View view){
-        Toast.makeText(this, "edit", Toast.LENGTH_LONG).show();
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(custom_dialog,null);
+
+        final EditText titleEditText = (EditText) dialogView.findViewById(R.id.titleEditText);
+        titleEditText.setText(e.getTitle());
+        final EditText amountEditText = (EditText) dialogView.findViewById(R.id.amountEditText);
+        amountEditText.setText(String.valueOf(e.getAmount()));
+        final EditText descriptionEditText = (EditText) dialogView.findViewById(R.id.descriptionEditText);
+        descriptionEditText.setText(e.getDescription());
+
+        Button submitButton = (Button) dialogView.findViewById(R.id.submitButton);
+        Button cancelButton = (Button) dialogView.findViewById(R.id.cancelButton);
+
+        submitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                int amount = Integer.parseInt(String.valueOf(amountEditText.getText()));
+                String title = String.valueOf(titleEditText.getText());
+                String description = String.valueOf(descriptionEditText.getText());
+                try{
+                    onEditButtonClickConfirmCall(amount,title,description);
+                    dialogBuilder.dismiss();
+                }
+                catch (InvalidParameterException e){
+                    Log.e("ERR_CUST_DIALOG", e.toString());
+                }
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogBuilder.dismiss();
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
     }
 
     public void onDeleteButtonClick(View view){
@@ -69,5 +114,22 @@ public class ExpenseDetail extends AppCompatActivity {
     private void onDeleteButtonClickConfirmCall(){
         db.deleteExpense(this.e.getExpense_id());
         this.finish();
+    }
+
+    private void onEditButtonClickConfirmCall(int amount, String title, String description) throws InvalidParameterException {
+        if(amount <= 0){
+            Toast.makeText(this,"Amount must be bigger than zero.",Toast.LENGTH_LONG).show();
+            throw new InvalidParameterException();
+        }
+        else if(title.length() == 0) {
+            Toast.makeText(this, "Title cannot be empty.",Toast.LENGTH_LONG).show();
+            throw new InvalidParameterException();
+        }
+        else{
+            db.updateExpense(e.getExpense_id(),e.getUser_username(),e.getCategory_name(),amount, title, description);
+            this.titleTextView.setText(title);
+            this.amountTextView.setText(String.valueOf(amount));
+            this.descriptionTextView.setText(description);
+        }
     }
 }
