@@ -4,6 +4,167 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddExpense">
+    tools:context=".ExpenseDetail">
+
+    <TextView
+        android:id="@+id/mainLabelTextViewAdding"
+        android:layout_width="332dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="24dp"
+        android:text="Adding new record"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/labelTitleTextViewAdding"
+        android:layout_width="152dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="11dp"
+        android:text="Title:"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainLabelTextViewAdding" />
+
+    <EditText
+        android:id="@+id/titleEditTextAdding"
+        android:layout_width="184dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:hint="Enter title"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.766"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainLabelTextViewAdding" />
+
+    <TextView
+        android:id="@+id/labelAmountTextViewAdding"
+        android:layout_width="152dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:paddingTop="11dp"
+        android:text="Amount:"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelTitleTextViewAdding" />
+
+    <TextView
+        android:id="@+id/labelCategoryListViewAdding"
+        android:layout_width="152dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:paddingTop="11dp"
+        android:text="Category:"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelAmountTextViewAdding" />
+
+    <EditText
+        android:id="@+id/amountEditTextAdding"
+        android:layout_width="184dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:hint="Enter amount"
+        android:inputType="number"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.766"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleEditTextAdding" />
+
+    <EditText
+        android:id="@+id/descriptionMultilineTextAdding"
+        android:layout_width="284dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Enter description"
+        android:inputType="textMultiLine"
+        android:lines="6"
+        android:maxLines="6"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="121dp"
+        android:layout_height="88dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/roundedbuttonlighttheme"
+        android:onClick="onConfirmButtonClick"
+        android:text="Confirm"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionMultilineTextAdding"
+        app:layout_constraintVertical_bias="0.196" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="305dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelCategoryListViewAdding">
+
+        <RadioButton
+            android:id="@+id/carRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Car" />
+
+        <RadioButton
+            android:id="@+id/foodRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Food" />
+
+        <RadioButton
+            android:id="@+id/cultureRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Culture" />
+
+        <RadioButton
+            android:id="@+id/toursimRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tourism" />
+
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
