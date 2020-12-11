@@ -8,8 +8,8 @@
 
     <ListView
         android:id="@+id/latestExpensesListView"
-        android:layout_width="418dp"
-        android:layout_height="293dp"
+        android:layout_width="347dp"
+        android:layout_height="275dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

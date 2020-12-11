@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.lukkon.expensetracker.dataObjects.Expense;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class MainActivityListViewAdapter extends ArrayAdapter<String> {

@@ -34,20 +34,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadExpenseListView(){
-        ArrayList<Expense> latestExpenses = db.selectAllExpensesByUsername(prefs.getString("loggedUserUsername",null));
-        Log.i("ADAPT",String.valueOf(latestExpenses.size()));
+        final ArrayList<Expense> latestExpenses = db.selectAllExpensesByUsername(prefs.getString("loggedUserUsername",null));
         ArrayList<String> titles = new ArrayList<String>();
         for(Expense e : latestExpenses){
             titles.add(e.getTitle());
         }
         MainActivityListViewAdapter arrayAdapter = new MainActivityListViewAdapter(this, latestExpenses, titles);
-        //ArrayAdapter<Expense> arrayAdapter = new ArrayAdapter<Expense>(this,android.R.layout.simple_list_item_1,latestExpenses);
         latestExpenseListView.setAdapter(arrayAdapter);
         latestExpenseListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Expense expense = (Expense)latestExpenseListView.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, expense.getUser_username(), Toast.LENGTH_LONG).show();
+                Expense expense = latestExpenses.get(position);
+                Toast.makeText(MainActivity.this, expense.getUser_username() + " " +  expense.getCategory_name(), Toast.LENGTH_LONG).show();
             }
         });
     }
