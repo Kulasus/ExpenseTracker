@@ -2,6 +2,7 @@ package com.lukkon.expensetracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -51,7 +52,6 @@ public class ExpenseDetail extends AppCompatActivity {
         amountTextView.setText(String.valueOf(e.getAmount()));
         categoryTextView.setText(e.getCategory_name());
         descriptionTextView.setText(e.getDescription());
-
     }
 
     public void onEditButtonClick(View view){
