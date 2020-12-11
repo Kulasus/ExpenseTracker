@@ -3,6 +3,7 @@ package com.lukkon.expensetracker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 Expense expense = latestExpenses.get(position);
-                Toast.makeText(MainActivity.this, expense.getUser_username() + " " +  expense.getCategory_name(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, ExpenseDetail.class);
+                intent.putExtra("expense",expense);
+                startActivity(intent);
             }
         });
     }
