@@ -1,6 +1,8 @@
 package com.lukkon.expensetracker.dataObjects;
 
-public class Expense {
+import java.io.Serializable;
+
+public class Expense implements Serializable {
     private int expense_id;
     private String user_username;
     private String category_name;

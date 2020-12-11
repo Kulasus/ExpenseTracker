@@ -1,6 +1,8 @@
 package com.lukkon.expensetracker.dataObjects;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
     private String name;
     private String color;
 
