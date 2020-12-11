@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         for(Expense e : latestExpenses){
             titles.add(e.getTitle());
         }
-        MainActivityListViewAdapter arrayAdapter = new MainActivityListViewAdapter(this, latestExpenses, titles);
+        MainActivityListViewAdapter arrayAdapter = new MainActivityListViewAdapter(this, latestExpenses, titles, db);
         latestExpenseListView.setAdapter(arrayAdapter);
         latestExpenseListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
