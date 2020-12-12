@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Settings">
+
+    <ImageView
+        android:id="@+id/settingsIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/is_settings" />
+
+    <TextView
+        android:id="@+id/settingsSoundTextView"
+        android:layout_width="101dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="44dp"
+        android:text="Sound:"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.206"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsIcon" />
+
+    <RadioGroup
+        android:id="@+id/settingsRadioGroup"
+        android:layout_width="279dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsSoundTextView">
+
+        <RadioButton
+            android:id="@+id/soundOnRadioButtonSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="On" />
+
+        <RadioButton
+            android:id="@+id/soundOffRadioButtonSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Off" />
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

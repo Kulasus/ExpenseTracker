@@ -73,14 +73,14 @@ public class DBHelper extends SQLiteOpenHelper{
 
     private void insertInitData(SQLiteDatabase db){
         db.execSQL("INSERT INTO users" + "(username, password)" + "VALUES('test','" + Encoder.encode("test") + "')");
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('car','#f57676')"); //light red
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('food','#8dabfc')"); //light blue
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('culture','#84ff82')"); //light green
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('tourism','#f0f768')"); //light yellow
-        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(1,'test', 'car', 500, 'Fuel', 'Car refueling at Shell gas station near my work')");
-        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(2,'test', 'car', 200, 'Fuel', 'Car refueling at MOL gas station near my home')");
-        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(3,'test', 'food', 1500, 'Shopping', 'Regular purchase of food and other stuff for home')");
-        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(4,'test', 'culture', 300, 'Cinema', 'Visiting cinema at Futurum Shopping Mal, I watched film Shrek 2')");
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Car','#f57676')"); //light red
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Food','#8dabfc')"); //light blue
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Culture','#84ff82')"); //light green
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Tourism','#f0f768')"); //light yellow
+        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(1,'test', 'Car', 500, 'Fuel', 'Car refueling at Shell gas station near my work')");
+        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(2,'test', 'Car', 200, 'Fuel', 'Car refueling at MOL gas station near my home')");
+        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(3,'test', 'Food', 1500, 'Shopping', 'Regular purchase of food and other stuff for home')");
+        db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(4,'test', 'Culture', 300, 'Cinema', 'Visiting cinema at Futurum Shopping Mal, I watched film Shrek 2')");
     }
 
     //Inserts
@@ -132,7 +132,7 @@ public class DBHelper extends SQLiteOpenHelper{
             contentValues.put("amount", amount);
             contentValues.put("title", title);
             contentValues.put("description", description);
-            long insertedId = db.insert("users", null, contentValues);
+            long insertedId = db.insert("expenses", null, contentValues);
             if (insertedId == -1) return false;
             return true;
         }

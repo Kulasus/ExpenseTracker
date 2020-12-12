@@ -51,7 +51,6 @@ public class ExpenseDetail extends AppCompatActivity {
         amountTextView.setText(String.valueOf(e.getAmount()));
         categoryTextView.setText(e.getCategory_name());
         descriptionTextView.setText(e.getDescription());
-
     }
 
     public void onEditButtonClick(View view){
