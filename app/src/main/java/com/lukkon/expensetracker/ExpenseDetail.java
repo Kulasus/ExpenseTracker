@@ -1,9 +1,13 @@
 package com.lukkon.expensetracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +20,8 @@ import android.widget.Toast;
 
 import com.lukkon.expensetracker.dataObjects.Expense;
 
+import org.w3c.dom.Text;
+
 import java.security.InvalidParameterException;
 
 import static com.lukkon.expensetracker.R.layout.custom_dialog;
@@ -26,8 +32,14 @@ public class ExpenseDetail extends AppCompatActivity {
     TextView amountTextView;
     TextView categoryTextView;
     TextView descriptionTextView;
+    Button editButton;
+    Button deleteButton;
+    TextView labelCategoryTextView;
+    TextView labelAmountTextView;
+    ConstraintLayout expenseDetailLayout;
 
     DBHelper db;
+    SharedPreferences prefs;
     Expense e;
     String color;
 
@@ -37,20 +49,49 @@ public class ExpenseDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_detail);
 
+        prefs = getSharedPreferences("com.lukkon.expensetracker", Context.MODE_PRIVATE);
         e = (Expense)getIntent().getSerializableExtra("expense");
         color = getIntent().getStringExtra("color");
         db = new DBHelper(this);
 
+        editButton = findViewById(R.id.editButton);
+        deleteButton = findViewById(R.id.deleteButton);
         titleTextView = findViewById(R.id.titleTextView);
         amountTextView = findViewById(R.id.amountTextView);
         categoryTextView = findViewById(R.id.categoryTextView);
         descriptionTextView = findViewById(R.id.descriptionMultilineText);
+        labelAmountTextView = findViewById(R.id.labelAmountTextView);
+        labelCategoryTextView = findViewById(R.id.labelCategoryTextView);
+        expenseDetailLayout = findViewById(R.id.expenseDetailLayout);
 
         titleTextView.setText(e.getTitle());
         titleTextView.setBackgroundColor(Color.parseColor(color));
         amountTextView.setText(String.valueOf(e.getAmount()));
         categoryTextView.setText(e.getCategory_name());
         descriptionTextView.setText(e.getDescription());
+
+        if(prefs.getBoolean("lightTheme",true)){
+            titleTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+            amountTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+            categoryTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+            descriptionTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+            editButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+            deleteButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+            labelAmountTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+            labelCategoryTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+            expenseDetailLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+        }
+        else{
+            titleTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+            amountTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+            categoryTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+            descriptionTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+            editButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+            deleteButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+            labelAmountTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+            labelCategoryTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+            expenseDetailLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+        }
     }
 
     public void onEditButtonClick(View view){

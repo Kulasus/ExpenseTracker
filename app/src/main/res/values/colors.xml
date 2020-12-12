@@ -8,4 +8,5 @@
     <color name="colorBtnLogin">#fff07a</color>
     <color name="colorBtnLightTheme">#636363</color>
     <color name="colorBtnDarkTheme">#c9c9c9</color>
+    <color name="colorDark">#595959</color>
 </resources>
