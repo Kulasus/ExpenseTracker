@@ -99,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Settings.class);
             startActivity(intent);
         }
+        if(id == R.id.logoutMenuItem){
+            prefs.edit().remove("loggedUserUsername").remove("loggedUserPassword").apply();
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            finish();
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 }
