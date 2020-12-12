@@ -3,7 +3,9 @@ package com.lukkon.expensetracker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,9 +29,11 @@ public class ExpenseDetail extends AppCompatActivity {
     TextView categoryTextView;
     TextView descriptionTextView;
 
+    SoundPlayer soundPlayer;
     DBHelper db;
     Expense e;
     String color;
+    SharedPreferences prefs;
 
 
     @Override
@@ -40,6 +44,8 @@ public class ExpenseDetail extends AppCompatActivity {
         e = (Expense)getIntent().getSerializableExtra("expense");
         color = getIntent().getStringExtra("color");
         db = new DBHelper(this);
+        prefs = getSharedPreferences("com.lukkon.expensetracker", Context.MODE_PRIVATE);
+        soundPlayer = new SoundPlayer(this);
 
         titleTextView = findViewById(R.id.titleTextView);
         amountTextView = findViewById(R.id.amountTextView);
@@ -54,6 +60,8 @@ public class ExpenseDetail extends AppCompatActivity {
     }
 
     public void onEditButtonClick(View view){
+        soundPlayer.playButtonSound();
+
         final AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(custom_dialog,null);
@@ -96,6 +104,8 @@ public class ExpenseDetail extends AppCompatActivity {
     }
 
     public void onDeleteButtonClick(View view){
+        soundPlayer.playButtonSound();
+
         new AlertDialog.Builder(this)
                 .setTitle("Delete expense")
                 .setMessage("Are you sure you want to delete this record?")

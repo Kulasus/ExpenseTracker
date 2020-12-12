@@ -20,6 +20,7 @@ public class Login extends AppCompatActivity {
     EditText usernameEditText;
     EditText passwordEditText;
     SharedPreferences prefs;
+    SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class Login extends AppCompatActivity {
         usernameEditText = findViewById(R.id.usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         db = new DBHelper(this);
+        soundPlayer = new SoundPlayer(this);
     }
 
     public void onLoginClick(View view){
@@ -46,6 +48,7 @@ public class Login extends AppCompatActivity {
                 prefs.edit().putString("loggedUserPassword",loggingUser.getPassword()).apply();
                 Intent intent = new Intent(Login.this, MainActivity.class);
                 finish();
+                soundPlayer.playLoginSound();
                 startActivity(intent);
             }
             else{

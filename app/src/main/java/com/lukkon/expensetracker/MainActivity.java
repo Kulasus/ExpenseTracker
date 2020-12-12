@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences prefs;
     ListView latestExpenseListView;
     DBHelper db;
+    SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = new DBHelper(this);
         prefs = this.getSharedPreferences("com.lukkon.expensetracker", Context.MODE_PRIVATE);
+        soundPlayer = new SoundPlayer(this);
         latestExpenseListView = findViewById(R.id.latestExpensesListView);
         loadExpenseListView();
 
@@ -100,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         if(id == R.id.logoutMenuItem){
-            prefs.edit().remove("loggedUserUsername").remove("loggedUserPassword").apply();
+            soundPlayer.playLogoutSound();
+            prefs.edit().remove("loggedUserUsername").remove("loggedUserPassword").remove("sound").apply();
             Intent intent = new Intent(MainActivity.this, Login.class);
             finish();
             startActivity(intent);
