@@ -43,8 +43,6 @@ public class ExpenseDetail extends AppCompatActivity {
     SharedPreferences prefs;
     Expense e;
     String color;
-    SharedPreferences prefs;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

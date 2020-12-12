@@ -73,10 +73,10 @@ public class DBHelper extends SQLiteOpenHelper{
 
     private void insertInitData(SQLiteDatabase db){
         db.execSQL("INSERT INTO users" + "(username, password)" + "VALUES('test','" + Encoder.encode("test") + "')");
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Car','#f57676')"); //light red
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Food','#8dabfc')"); //light blue
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Culture','#0fb836')"); //light green
-        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Tourism','#f0f768')"); //light yellow
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Car','#f57676')");
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Food','#8dabfc')");
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Culture','#0fb836')");
+        db.execSQL("INSERT INTO categories" + "(name, color)" + "VALUES('Tourism','#c8d11d')");
         db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(1,'test', 'Car', 500, 'Fuel', 'Car refueling at Shell gas station near my work')");
         db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(2,'test', 'Car', 200, 'Fuel', 'Car refueling at MOL gas station near my home')");
         db.execSQL("INSERT INTO expenses" + "(expense_id, user_username, category_name, amount, title, description)" + "VALUES(3,'test', 'Food', 1500, 'Shopping', 'Regular purchase of food and other stuff for home')");
