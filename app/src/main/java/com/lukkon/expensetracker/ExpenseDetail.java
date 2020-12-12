@@ -38,10 +38,12 @@ public class ExpenseDetail extends AppCompatActivity {
     TextView labelAmountTextView;
     ConstraintLayout expenseDetailLayout;
 
+    SoundPlayer soundPlayer;
     DBHelper db;
     SharedPreferences prefs;
     Expense e;
     String color;
+    SharedPreferences prefs;
 
 
     @Override
@@ -53,6 +55,8 @@ public class ExpenseDetail extends AppCompatActivity {
         e = (Expense)getIntent().getSerializableExtra("expense");
         color = getIntent().getStringExtra("color");
         db = new DBHelper(this);
+        prefs = getSharedPreferences("com.lukkon.expensetracker", Context.MODE_PRIVATE);
+        soundPlayer = new SoundPlayer(this);
 
         editButton = findViewById(R.id.editButton);
         deleteButton = findViewById(R.id.deleteButton);
@@ -95,6 +99,8 @@ public class ExpenseDetail extends AppCompatActivity {
     }
 
     public void onEditButtonClick(View view){
+        soundPlayer.playButtonSound();
+
         final AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(custom_dialog,null);
@@ -137,6 +143,8 @@ public class ExpenseDetail extends AppCompatActivity {
     }
 
     public void onDeleteButtonClick(View view){
+        soundPlayer.playButtonSound();
+
         new AlertDialog.Builder(this)
                 .setTitle("Delete expense")
                 .setMessage("Are you sure you want to delete this record?")

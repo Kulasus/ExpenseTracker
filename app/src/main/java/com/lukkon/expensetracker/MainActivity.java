@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     TextView latestExpensesTextView;
     ConstraintLayout mainViewLayout;
     DBHelper db;
+    SoundPlayer soundPlayer;
+
     SensorManager sensorManager;
     float acelVal, acelLast, shake;
     static int shakeCounter = 0;
@@ -51,8 +53,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = new DBHelper(this);
         prefs = this.getSharedPreferences("com.lukkon.expensetracker", Context.MODE_PRIVATE);
+        soundPlayer = new SoundPlayer(this);
+
         latestExpensesTextView = findViewById(R.id.latestExpensesTextView);
         mainViewLayout = findViewById(R.id.mainViewLayout);
+
         latestExpenseListView = findViewById(R.id.latestExpensesListView);
         loadExpenseListView();
 
@@ -126,8 +131,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         if(id == R.id.logoutMenuItem){
+
+            soundPlayer.playLogoutSound();
+            prefs.edit().remove("loggedUserUsername").remove("loggedUserPassword").remove("sound").apply();
             prefs.edit().remove("loggedUserUsername").remove("loggedUserPassword").apply();
             prefs.edit().remove("lightTheme").apply();
+          
             Intent intent = new Intent(MainActivity.this, Login.class);
             finish();
             startActivity(intent);
