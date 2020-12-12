@@ -25,10 +25,17 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        prefs = this.getSharedPreferences("com.lukkon.expensetracker", Context.MODE_PRIVATE);
+        if(prefs.contains("loggedUserUsername") && prefs.contains("loggedUserPassword")){
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            finish();
+            startActivity(intent);
+        }
+
         usernameEditText = findViewById(R.id.usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         db = new DBHelper(this);
-        prefs = this.getSharedPreferences("com.lukkon.expensetracker", Context.MODE_PRIVATE);
     }
 
     public void onLoginClick(View view){
@@ -38,6 +45,7 @@ public class Login extends AppCompatActivity {
                 prefs.edit().putString("loggedUserUsername",loggingUser.getUsername()).apply();
                 prefs.edit().putString("loggedUserPassword",loggingUser.getPassword()).apply();
                 Intent intent = new Intent(Login.this, MainActivity.class);
+                finish();
                 startActivity(intent);
             }
             else{
