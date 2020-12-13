@@ -26,18 +26,29 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.lukkon.expensetracker.dataObjects.Expense;
 
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences prefs;
     ListView latestExpenseListView;
     TextView latestExpensesTextView;
+    PieChart pieChart;
     ConstraintLayout mainViewLayout;
     DBHelper db;
     SoundPlayer soundPlayer;
@@ -54,6 +65,16 @@ public class MainActivity extends AppCompatActivity {
         db = new DBHelper(this);
         prefs = this.getSharedPreferences("com.lukkon.expensetracker", Context.MODE_PRIVATE);
         soundPlayer = new SoundPlayer(this);
+
+        pieChart = findViewById(R.id.pieChart);
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.getLegend().setEnabled(false);
+        pieChart.setHoleRadius(0f);
+        pieChart.setTransparentCircleRadius(0f);
+        pieChart.animateXY(1400,1400);
+
+        List<PieEntry> values = new ArrayList<>();
 
         latestExpensesTextView = findViewById(R.id.latestExpensesTextView);
         mainViewLayout = findViewById(R.id.mainViewLayout);
@@ -77,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadExpenseListView(){
         final ArrayList<Expense> latestExpenses = db.selectAllExpensesByUsername(prefs.getString("loggedUserUsername",null));
         ArrayList<String> titles = new ArrayList<String>();
+        populateGraph(latestExpenses);
         for(Expense e : latestExpenses){
             titles.add(e.getTitle());
         }
@@ -185,5 +207,45 @@ public class MainActivity extends AppCompatActivity {
             mainViewLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorDark));
             loadExpenseListView();
         }
+    }
+
+    private void populateGraph(ArrayList<Expense> expenses){
+        HashMap<String, Integer> dict = new HashMap<>();
+        List<PieEntry> values = new ArrayList<>();
+        List<Integer> colors = new LinkedList<>();
+        int totalAmount = 0;
+        for(Expense e : expenses){
+           if(dict.containsKey(e.getCategory_name())){
+                int totalCatAmount = dict.get(e.getCategory_name());
+                dict.remove(e.getCategory_name());
+                dict.put(e.getCategory_name(), e.getAmount() + totalCatAmount);
+            }
+            else{
+                //colors.add(Color.parseColor(db.selectCategory(e.getCategory_name()).getColor()));
+                dict.put(e.getCategory_name(), e.getAmount());
+            }
+            totalAmount += e.getAmount();
+        }
+        int counter = 0;
+        for(String s : dict.keySet()){
+            colors.add(Color.parseColor(db.selectCategory(s).getColor()));
+            values.add(new PieEntry(dict.get(s)/(totalAmount/100) ,s));
+            counter++;
+        }
+        Log.d("DICT","-------------------------");
+        PieDataSet pieDataSet = new PieDataSet(values, "");
+        PieData pieData = new PieData(pieDataSet);
+
+        pieDataSet.setColors(colors);
+
+        if(lightTheme){
+            pieData.setValueTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+            pieChart.setEntryLabelColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBlack));
+        }else{
+            pieData.setValueTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+            pieChart.setEntryLabelColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+        }
+
+        pieChart.setData(pieData);
     }
 }
